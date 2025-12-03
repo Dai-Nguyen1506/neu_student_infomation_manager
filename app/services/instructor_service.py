@@ -17,9 +17,9 @@ class InstructorService:
         return Instructor.get_by_id(instructor_id)
 
     @staticmethod
-    def search_instructors(instructor_id=None, name=None):
+    def search_instructors(instructor_id=None, name=None, special=None):
         """Search instructors with filters"""
-        return Instructor.search(instructor_id, name)
+        return Instructor.search(instructor_id, name, special)
 
     @staticmethod
     def create_instructor(data):
@@ -72,3 +72,4 @@ class InstructorService:
 
         Instructor.delete(instructor_id)
         return True, "Instructor deleted successfully"
+    

@@ -8,12 +8,12 @@
         <h1>Students</h1>
     </div>
     <div class="col-md-6 text-end">
-        <a href="{{ url_for('students.create') }}" class="btn btn-primary">+ Add New Student</a>
+        <a href="{{ url_for('students.create') }}" class="btn btn-primary btn-hover">+ Add New Student</a>
     </div>
 </div>
 
 <!-- Search Form -->
-<div class="card mb-4">
+<div class="card mb-4 btn-hover">
     <div class="card-body">
         <form method="POST" action="{{ url_for('students.search') }}">
             <div class="row">
@@ -30,7 +30,7 @@
                     <input type="text" name="enrollment_year" class="form-control" placeholder="Enrollment Year">
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-info w-100">Search</button>
+                    <button type="submit" class="btn btn-info w-100 btn-hover">Search</button>
                 </div>
             </div>
         </form>

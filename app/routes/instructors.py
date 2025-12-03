@@ -1,6 +1,7 @@
 # app/routes/instructors.py
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from app.services.instructor_service import InstructorService
+from app.models.instructor_model import Instructor
 
 instructors_bp = Blueprint('instructors', __name__, url_prefix='/instructors', template_folder='../templates')
 
@@ -28,10 +29,12 @@ def search():
     if request.method == 'POST':
         instructor_id = request.form.get('instructor_id')
         name = request.form.get('name')
+        special = request.form.get('special')
 
         instructors = InstructorService.search_instructors(
             instructor_id=instructor_id,
-            name=name
+            name=name,
+            special=special
         )
         return render_template('instructors/list.html', instructors=instructors)
     
