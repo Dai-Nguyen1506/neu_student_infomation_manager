@@ -39,27 +39,6 @@ class ProgramService:
         )
         return True, "Course created successfully"
 
-    # @staticmethod
-    # def update_course(course_id, data):
-    #     """Update course with validation"""
-    #     course = Course.get_by_id(course_id)
-    #     if not course:
-    #         return False, "Course not found"
-
-    #     # Validate data
-    #     errors = validate_course_data(data, is_update=True)
-    #     if errors:
-    #         return False, errors
-
-    #     # Check if new course code exists (if code is being changed)
-    #     if 'course_code' in data and data['course_code'] != course.get('course_code'):
-    #         if Course.code_exists(data.get('course_code')):
-    #             return False, ["Course code already exists"]
-
-    #     # Update course
-    #     Course.update(course_id, **data)
-    #     return True, "Course updated successfully"
-
     @staticmethod
     def delete_program(program_id):
         """Delete a course"""
