@@ -102,7 +102,7 @@ VALUES
 (4, 19, '2024-09-25'),
 (5, 20, '2023-09-25');
 
--- TUITION FEES (30)
+-- TUITION FEES (31)
 INSERT INTO tuition_fee (student_id, academic_year, semester, total_amount, amount_paid, payment_status)
 VALUES
 (1, 2025, 'Spring', 1500.00, 1500.00, 'Fully Paid'),
@@ -134,7 +134,8 @@ VALUES
 (26, 2025, 'Fall', 1600.00, 800.00, 'Partially Paid'),
 (27, 2026, 'Fall', 1600.00, 0.00, 'Unpaid'),
 (28, 2025, 'Summer', 1200.00, 1200.00, 'Fully Paid'),
-(29, 2025, 'Spring', 1500.00, 0.00, 'Unpaid');
+(29, 2025, 'Spring', 1500.00, 0.00, 'Unpaid'),
+(30, 2025, 'Fall', 1500.00, 0.00, 'Unpaid');
 
 -- PAYMENTS (50)
 INSERT INTO payment (fee_id, payment_date, amount, payment_method, transaction_code, collected_by)
@@ -144,11 +145,11 @@ VALUES
 (2, '2025-10-05', 300.00, 'Card', 'TXN1003', 'Cashier B'),
 (3, '2025-03-05', 200.00, 'Cash', 'TXN1004', 'Cashier C'),
 (4, '2025-06-20', 500.00, 'Card', 'TXN1005', 'Cashier A'),
-(5, '2025-09-02', 800.00, 'Bank Transfer', 'TXN1006', 'Cashier A'),
-(5, '2025-09-25', 800.00, 'Card', 'TXN1007', 'Cashier B'),
-(6, '2025-03-12', 1000.00, 'Cash', 'TXN1008', 'Cashier C'),
+(5, '2025-09-02', 600.00, 'Bank Transfer', 'TXN1006', 'Cashier A'),
+(5, '2025-09-25', 100.00, 'Card', 'TXN1007', 'Cashier B'),
+(6, '2025-03-12', 500.00, 'Cash', 'TXN1008', 'Cashier C'),
 (7, '2025-07-05', 200.00, 'Card', 'TXN1009', 'Cashier A'),
-(7, '2025-07-20', 1000.00, 'Bank Transfer', 'TXN1010', 'Cashier B'),
+(7, '2025-07-20', 300.00, 'Bank Transfer', 'TXN1010', 'Cashier B'),
 (7, '2025-07-01', 100.00, 'Card', 'TXN1011', 'Cashier A'),
 (9, '2025-07-10', 600.00, 'Cash', 'TXN1012', 'Cashier B'),
 (9, '2025-02-25', 300.00, 'Card', 'TXN1013', 'Cashier C'),
@@ -176,16 +177,16 @@ VALUES
 (26, '2025-03-05', 800.00, 'Card', 'TXN1035', 'Cashier C'),
 (27, '2025-09-15', 600.00, 'Cash', 'TXN1036', 'Cashier D'),
 (28, '2025-07-10', 200.00, 'Card', 'TXN1037', 'Cashier A'),
-(28, '2025-03-02', 500.00, 'Bank Transfer', 'TXN1038', 'Cashier B'),
-(30, '2025-09-01', 1300.00, 'Card', 'TXN1039', 'Cashier C'),
-(1, '2025-09-01', 500.00, 'Bank Transfer', 'TXN1040', 'Cashier D'),
+(28, '2025-03-02', 100.00, 'Bank Transfer', 'TXN1038', 'Cashier B'),
+(30, '2025-09-01', 1000.00, 'Card', 'TXN1039', 'Cashier C'),
+(30, '2025-09-01', 200.00, 'Bank Transfer', 'TXN1040', 'Cashier D'),
 (2, '2025-12-01', 200.00, 'Card', 'TXN1041', 'Cashier A'),
 (3, '2025-07-15', 300.00, 'Cash', 'TXN1042', 'Cashier B'),
 (4, '2025-10-01', 500.00, 'Card', 'TXN1043', 'Cashier C'),
-(5, '2025-10-10', 800.00, 'Bank Transfer', 'TXN1044', 'Cashier D'),
-(6, '2025-11-01', 700.00, 'Card', 'TXN1045', 'Cashier A'),
+(5, '2025-10-10', 200.00, 'Bank Transfer', 'TXN1044', 'Cashier D'),
+(6, '2025-11-01', 200.00, 'Card', 'TXN1045', 'Cashier A'),
 (7, '2025-11-05', 200.00, 'Cash', 'TXN1046', 'Cashier B'),
-(9, '2025-11-10', 600.00, 'Card', 'TXN1047', 'Cashier C'),
+(9, '2025-11-10', 100.00, 'Card', 'TXN1047', 'Cashier C'),
 (9, '2025-11-15', 500.00, 'Bank Transfer', 'TXN1048', 'Cashier D'),
 (10, '2026-01-05', 700.00, 'Card', 'TXN1049', 'Cashier A'),
 (7, '2025-11-05', 300.00, 'Card', 'TXN1050', 'Cashier B');

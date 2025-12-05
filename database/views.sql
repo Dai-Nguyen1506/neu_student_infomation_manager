@@ -9,54 +9,52 @@ SELECT
 FROM tuition_fee
 GROUP BY payment_status;
 
--- v_students_by_program
-CREATE OR REPLACE VIEW v_students_by_program AS
-SELECT
-    p.program_id,
-    p.program_name,
-    s.student_id,
-    s.full_name AS student_name,
-    s.enrollment_year
-FROM program p
-JOIN student s ON s.program_id = p.program_id
-ORDER BY p.program_id, s.enrollment_year, s.full_name;
-
--- v_outstanding_tuition
-CREATE OR REPLACE VIEW v_outstanding_tuition AS
-SELECT
-    tf.student_id,
-    s.full_name AS student_name,
-    tf.academic_year,
-    tf.semester,
-    tf.total_amount,
-    tf.amount_paid,
-    (tf.total_amount - tf.amount_paid) AS remaining_amount,
-    CASE
-      WHEN tf.amount_paid >= tf.total_amount THEN 'Fully Paid'
-      WHEN tf.amount_paid > 0 AND tf.amount_paid < tf.total_amount THEN 'Partially Paid'
-      ELSE 'Unpaid'
-    END AS payment_status
-FROM tuition_fee tf
-JOIN student s ON s.student_id = tf.student_id
-ORDER BY tf.academic_year DESC, tf.semester, s.full_name;
-
--- v_course_performance
-CREATE OR REPLACE VIEW v_course_performance AS
-SELECT
-    c.course_id,
-    c.course_name,
-    COUNT(e.enrollment_id) AS num_students,
-    ROUND(AVG(e.grade), 2) AS avg_grade,
-    CASE
-        WHEN COUNT(e.enrollment_id) = 0 THEN 0.00
-        ELSE ROUND(
-            100.0 * SUM(CASE WHEN e.grade IS NOT NULL AND e.grade >= 4.0 THEN 1 ELSE 0 END)
-            / COUNT(e.enrollment_id),
+-- v_top_gpa
+CREATE OR REPLACE VIEW v_top_gpa AS
+SELECT 
+    student_id,
+    full_name,
+    gpa
+FROM (
+    SELECT 
+        s.student_id,
+        s.full_name,
+        ROUND(
+            (SUM(e.grade * c.credit_hours) / SUM(c.credit_hours)) / 10 * 4,
             2
-        )
-    END AS pass_rate
-FROM course c
-LEFT JOIN enrollment e ON e.course_id = c.course_id
-WHERE c.course_id IS NOT NULL
-GROUP BY c.course_id, c.course_name
-ORDER BY c.course_id;
+        ) AS gpa
+    FROM student s
+    JOIN enrollment e ON s.student_id = e.student_id
+    JOIN course c ON e.course_id = c.course_id
+    WHERE e.status = 'Completed'
+      AND e.grade IS NOT NULL
+    GROUP BY s.student_id, s.full_name
+    HAVING gpa IS NOT NULL
+    ORDER BY gpa DESC
+    LIMIT 10
+) AS sub;
+
+-- v_grade_distribution
+CREATE OR REPLACE VIEW v_grade_distribution AS
+WITH ranges AS (
+    SELECT 0 AS min_grade, 1 AS max_grade, '0–1' AS label UNION ALL
+    SELECT 1, 2, '1–2' UNION ALL
+    SELECT 2, 3, '2–3' UNION ALL
+    SELECT 3, 4, '3–4' UNION ALL
+    SELECT 4, 5, '4–5' UNION ALL
+    SELECT 5, 6, '5–6' UNION ALL
+    SELECT 6, 7, '6–7' UNION ALL
+    SELECT 7, 8, '7–8' UNION ALL
+    SELECT 8, 9, '8–9' UNION ALL
+    SELECT 9, 10, '9–10'
+)
+SELECT 
+    r.label AS grade_range,
+    COUNT(e.grade) AS total_students
+FROM ranges r
+LEFT JOIN enrollment e 
+    ON e.grade >= r.min_grade 
+   AND e.grade < r.max_grade 
+   AND e.grade IS NOT NULL
+GROUP BY r.label, r.min_grade
+ORDER BY r.min_grade;

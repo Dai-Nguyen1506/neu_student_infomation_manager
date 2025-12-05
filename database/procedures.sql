@@ -37,8 +37,7 @@ main_block: BEGIN
     WHERE student_id = p_student_id
       AND course_id = p_course_id
       AND semester = p_semester
-      AND academic_year = p_academic_year
-      AND is_deleted = 0;
+      AND academic_year = p_academic_year;
     IF v_already_enrolled > 0 THEN
         SELECT 0 AS success, CONCAT('Failure: student already enrolled for ', p_semester, ' ', p_academic_year, '.') AS message;
         LEAVE main_block;
