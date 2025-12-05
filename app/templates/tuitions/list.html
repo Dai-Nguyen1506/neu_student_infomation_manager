@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Programs - Student Management{% endblock %}
+
+{% block content %}
+<div class="row mb-4 border-bottom border-white">
+    <div class="col-md-6 p-2">
+        <h1 class="text-white">Programs</h1>
+    </div>
+    <div class="col-md-6 text-end p-2">
+        <a href="{{ url_for('programs.create') }}" class="btn btn-primary btn-hover">+ Add New Program</a>
+    </div>
+</div>
+<!-- Search Form -->
+<div class="card mb-4 btn-hover">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('programs.search') }}">
+            <div class="row">
+                <div class="col-md-10">
+                    <input type="text" name="name" class="form-control" placeholder="Program Name">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-info w-100 btn-hover text-white">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="rounded-4">
+    <div class="mb-3">
+        {% for program in programs %}
+        <div class="container-fluid mb-3 mt-3 mb-sm-0">
+            <div class="card btn-hover">
+                <div class="card-body ms-3 row">
+                    <div class="col-8">
+                        <h2 class="card-title fw-bold mb-3"> {{ program.program_name }}</h2>
+                        <p class="card-text fw-normal"> <span class="fw-bolder">Department:</span> {{ program.department
+                            }}
+                        </p>
+                    </div>
+                    <div class="col-4 text-end">
+                        <a href="{{ url_for('programs.get_by_id', program_id=program.program_id) }}"
+                            class="btn btn-outline-primary rounded-4" type="button">More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal: Information -->
+<!-- <div class="modal fade" id="infModal" tabindex="-1" aria-labelledby="infModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card btn-hover">
+            <div class="modal-header card-header bg-primary">
+                <h1 class="modal-title fs-5"> <span id="modalProgramName"></span></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Code:</strong> <span id="modalProgramId"></p>
+                        <p><strong>Department:</strong> <span id="modalProgramDepart"></span></p>
+                        <p><strong>Year Duration:</strong> <span id="modalProgramYear"></span></p>
+                        <p><strong>Degree Type:</strong> <span id="modalProgramDegree"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Created At:</strong> <span id="modalProgramCreated"></span></p>
+                        <p><strong>Updated At:</strong> <span id="modalProgramUpdated"></span></p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<!-- <script>
+    function deleteProgram(id) {
+        if (confirm('Are you sure you want to delete this program?')) {
+            fetch(`/programs/delete/${id}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+        }
+    }
+</script> -->
+
+<!-- <script>
+    document.getElementById('infModal').addEventListener('show.bs.modal', function (event) {
+        let button = event.relatedTarget;
+
+        let id = button.getAttribute('data-id');
+        let name = button.getAttribute('data-name');
+        let department = button.getAttribute('data-department');
+        let year = button.getAttribute('data-year');
+        let degree = button.getAttribute('data-degree');
+        let created = button.getAttribute('data-created');
+        let updated = button.getAttribute('data-updated');
+
+        // Gán vào modal
+        document.getElementById('modalProgramId').textContent = id;
+        document.getElementById('modalProgramName').textContent = name;
+        document.getElementById('modalProgramDepart').textContent = department;
+        document.getElementById('modalProgramYear').textContent = year;
+        document.getElementById('modalProgramDegree').textContent = degree;
+        document.getElementById('modalProgramCreated').textContent = created;
+        document.getElementById('modalProgramUpdated').textContent = updated;
+    });
+</script> -->
+{% endblock %}
