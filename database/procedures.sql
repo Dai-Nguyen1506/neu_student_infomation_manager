@@ -96,13 +96,32 @@ BEGIN
         c.credit_hours,
         c.semester_offered,
         p.program_name,
-        p.department,
-        p.degree_type,
-        i.full_name
+        i.full_name AS instructor_name
     FROM course c
     LEFT JOIN program p ON c.program_id = p.program_id
     LEFT JOIN instructor i ON c.instructor_id = i.instructor_id
     WHERE c.program_id = p_program_id;
+END$$
+
+-- sp_enrollments_by_student
+DROP PROCEDURE IF EXISTS sp_enrollments_by_student$$
+CREATE PROCEDURE sp_enrollments_by_student(
+    IN p_student_id INT
+)
+BEGIN
+    SELECT
+        e.enrollment_id,
+        s.full_name AS student_name,
+        c.course_name,
+        e.semester,
+        e.academic_year,
+        e.grade,
+        e.status
+    FROM enrollment e
+    INNER JOIN student s ON e.student_id = s.student_id
+    INNER JOIN course c ON e.course_id = c.course_id
+    WHERE e.student_id = p_student_id
+    ORDER BY e.academic_year DESC, e.semester;
 END$$
 
 DELIMITER ;
