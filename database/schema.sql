@@ -123,8 +123,6 @@ CREATE TABLE payment (
     transaction_code VARCHAR(100) DEFAULT NULL,
     collected_by VARCHAR(100) DEFAULT NULL,
     remarks VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CHECK (amount > 0),
     CONSTRAINT fk_payment_fee
       FOREIGN KEY (fee_id) REFERENCES tuition_fee(fee_id)
@@ -148,29 +146,3 @@ CREATE TABLE advisor_assignment (
       ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- TRIGGER
-DELIMITER $$
-DROP TRIGGER IF EXISTS trg_after_payment_insert$$
-CREATE TRIGGER trg_after_payment_insert
-AFTER INSERT ON payment
-FOR EACH ROW
-BEGIN
-    DECLARE v_total_paid DECIMAL(18,2);
-    -- Recalculate total paid 
-    SELECT IFNULL(SUM(amount), 0.00) INTO v_total_paid
-    FROM payment
-    WHERE fee_id = NEW.fee_id
-      AND is_deleted = 0;
-    -- Update tuition_fee.amount_paid and payment_status
-    UPDATE tuition_fee
-    SET amount_paid = v_total_paid,
-        payment_status =
-            CASE
-                WHEN v_total_paid >= total_amount THEN 'Fully Paid'
-                WHEN v_total_paid > 0 AND v_total_paid < total_amount THEN 'Partially Paid'
-                ELSE 'Unpaid'
-            END,
-        updated_at = CURRENT_TIMESTAMP
-    WHERE fee_id = NEW.fee_id;
-END$$
-DELIMITER ;
