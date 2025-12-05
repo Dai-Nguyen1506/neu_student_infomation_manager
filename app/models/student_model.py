@@ -130,3 +130,40 @@ class Student:
         exists = cursor.fetchone()[0] > 0
         conn.close()
         return exists
+    
+    @staticmethod
+    def get_enrollments(student_id):
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        query = """
+            SELECT
+                e.enrollment_id,
+                s.full_name AS student_name,
+                c.course_name,
+                e.semester,
+                e.academic_year,
+                e.grade,
+                e.status
+            FROM enrollment e
+            INNER JOIN student s ON e.student_id = s.student_id
+            INNER JOIN course c ON e.course_id = c.course_id
+            WHERE e.student_id = %s
+            ORDER BY e.academic_year DESC, e.semester;
+        """
+
+        cursor.execute(query, (student_id,))
+        result = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+        return result
+    
+    @staticmethod
+    def deleteEnrollment(enrollment_id):
+        """Delete a student"""
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM enrollment WHERE enrollment_id = %s", (enrollment_id,))
+        conn.commit()
+        conn.close()

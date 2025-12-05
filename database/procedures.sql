@@ -82,6 +82,8 @@ BEGIN
       AND tf.academic_year = p_academic_year
       AND tf.semester = p_semester;
 END$$
+DELIMITER ;
+
 
 -- sp_courses_by_program
 DROP PROCEDURE IF EXISTS sp_courses_by_program$$

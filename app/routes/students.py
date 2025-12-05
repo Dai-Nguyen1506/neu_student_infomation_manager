@@ -17,10 +17,11 @@ def list():
 def view(student_id):
     """View student details"""
     student = StudentService.get_student_by_id(student_id)
+    enrollments = StudentService.get_enrollments_student(student_id)
     if not student:
         flash('Student not found', 'danger')
         return redirect(url_for('students.list'))
-    return render_template('students/detail.html', student=student)
+    return render_template('students/detail.html', student=student, enrollments=enrollments)
 
 
 @students_bp.route('/search', methods=['GET', 'POST'])
@@ -115,6 +116,14 @@ def update(student_id):
 def delete(student_id):
     """Delete student"""
     success, message = StudentService.delete_student(student_id)
+    if success:
+        return jsonify({'success': True, 'message': message})
+    return jsonify({'success': False, 'message': message}), 400
+
+@students_bp.route('/deleteEnrollment/<int:enrollment_id>', methods=['POST'])
+def deleteEnrollment(enrollment_id):
+    """Delete enrollment"""
+    success, message = StudentService.delete_enrollment(enrollment_id)
     if success:
         return jsonify({'success': True, 'message': message})
     return jsonify({'success': False, 'message': message}), 400

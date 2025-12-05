@@ -94,3 +94,18 @@ class StudentService:
 
         Student.delete(student_id)
         return True, "Student deleted successfully"
+    
+    @staticmethod
+    def get_enrollments_student(student_id):
+        student = Student.get_by_id(student_id)
+        if not student:
+            return False, "Student not found"
+        
+        return Student.get_enrollments(student_id)
+
+    @staticmethod
+    def delete_enrollment(enrollment_id):
+        """Delete enrollment"""
+
+        Student.deleteEnrollment(enrollment_id)
+        return True, "Enrollment deleted successfully"
