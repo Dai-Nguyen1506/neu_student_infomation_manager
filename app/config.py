@@ -27,10 +27,12 @@ class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
     DATABASE = {
-        'host': os.getenv('DB_HOST'),
-        'user': os.getenv('DB_USER'),
-        'password': os.getenv('DB_PASSWORD'),
-        'database': os.getenv('DB_NAME')
+        # Ưu tiên DB_HOST, nếu không có thì lấy MYSQLHOST (của Railway)
+        'host': os.getenv('DB_HOST') or os.getenv('MYSQLHOST'),
+        'user': os.getenv('DB_USER') or os.getenv('MYSQLUSER'),
+        'password': os.getenv('DB_PASSWORD') or os.getenv('MYSQLPASSWORD'),
+        'database': os.getenv('DB_NAME') or os.getenv('MYSQLDATABASE'),
+        'port': int(os.getenv('DB_PORT') or os.getenv('MYSQLPORT') or 3306)
     }
 
 
