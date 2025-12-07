@@ -57,7 +57,7 @@ class StudentService:
         return True, "Student created successfully"
 
     @staticmethod
-    def update_student(student_id, data):
+    def update_student(student_id, data, advisor):
         """Update student with validation"""
         student = Student.get_by_id(student_id)
         if not student:
@@ -83,6 +83,7 @@ class StudentService:
 
         # Update student
         Student.update(student_id, **data)
+        Student.change_advisor(student_id, advisor)
         return True, "Student updated successfully"
 
     @staticmethod

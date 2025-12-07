@@ -208,3 +208,32 @@ class Student:
         cursor.execute(query, (academic_year, grade, status, enrollment_id,))
         conn.commit()
         conn.close()
+        
+    @staticmethod
+    def change_advisor(student_id, instructor_id):
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # Check if advisor record exists
+        check_query = "SELECT * FROM advisor_assignment WHERE student_id = %s"
+        cursor.execute(check_query, (student_id,))
+        exists = cursor.fetchone()
+
+        if exists:
+            # Update existing advisor
+            query = """
+                UPDATE advisor_assignment
+                SET instructor_id = %s
+                WHERE student_id = %s
+            """
+            cursor.execute(query, (instructor_id, student_id,))
+        else:
+            # Insert new advisor assignment
+            query = """
+                INSERT INTO advisor_assignment (student_id, instructor_id)
+                VALUES (%s, %s)
+            """
+            cursor.execute(query, (student_id, instructor_id,))
+
+        conn.commit()
+        conn.close()

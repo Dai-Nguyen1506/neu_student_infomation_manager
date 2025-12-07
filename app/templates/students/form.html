@@ -82,6 +82,32 @@
                             value="{{ student.enrollment_year if student else '' }}" required min="2000">
                     </div>
 
+                    <!-- Change Advisor -->
+                    {% if student %}
+                    <div class="mb-3">
+                        <label for="program_id" class="form-label">Advisor *</label>
+                        {% if student.advisor_name %}
+                        <select class="form-select" name="advisor" required>
+                            {% for advisor in instructors %}
+                            <option value="{{ advisor.instructor_id }}" {% if student.advisor_name==advisor.full_name
+                                %}selected{% endif %}>
+                                {{ advisor.full_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        {% else %}
+                        <select class="form-select" name="advisor" required>
+                            <option value="">--- Select Advisor ---</option>
+                            {% for advisor in instructors %}
+                            <option value="{{ advisor.instructor_id }}">
+                                {{ advisor.full_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
                     <!-- Buttons -->
                     <div class="text-end">
                         <a href="{% if student %}{{ url_for('students.view', student_id=student.student_id) }}{% else %}{{ url_for('students.list') }}{% endif %}"

@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash, Response
 from app.services.student_service import StudentService
 from app.models.student_model import Student
+from app.models.instructor_model import Instructor
 from app.models.program_model import Program
 from app.models.course_model import Course
 import csv
@@ -87,7 +88,8 @@ def update(student_id):
 
     if request.method == 'GET':
         programs = Program.get_all()
-        return render_template('students/form.html', student=student, programs=programs)
+        instructors = Instructor.get_all()
+        return render_template('students/form.html', student=student, programs=programs, instructors=instructors)
 
     # Handle POST request
     data = {}
@@ -107,8 +109,10 @@ def update(student_id):
         data['program_id'] = request.form.get('program_id')
     if request.form.get('enrollment_year'):
         data['enrollment_year'] = request.form.get('enrollment_year')
+    if request.form.get('advisor'):
+        advisor = request.form.get('advisor')
 
-    success, message = StudentService.update_student(student_id, data)
+    success, message = StudentService.update_student(student_id, data, advisor)
     if success:
         flash(message, 'success')
         return redirect(url_for('students.view', student_id=student_id))
