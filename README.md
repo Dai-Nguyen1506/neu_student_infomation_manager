@@ -31,6 +31,34 @@
 - Automate tuition data processing and annual fee tracking.
 - Deliver a clean and user-friendly interface for administrators.
 
+### 📂 Project Structure
+
+Here is an overview of the main folders and files in the project:
+
+```text
+neu_student_infomation_manager/
+├── .github/workflows/   # Automation pipelines (CI/CD) for GitHub Actions
+├── app/                 # Main source code of the application
+│   ├── database/        # SQL and Python scripts to initialize and seed database data
+│   ├── models/          # Define data object classes (Data Models)
+│   ├── routes/          # Handling URL navigation (Controllers/Views)
+│   ├── services/        # Contains the main business logic (Business Logic Layer)
+│   ├── static/          # Static Resources: CSS, JavaScript, Images, Bootstrap
+│   ├── templates/       # HTML interface files (Jinja2 Templates)
+│   ├── utils/           # Common utility functions (Validators, Helpers...)
+│   ├── __init__.py      # Flask App Factory
+│   ├── config.py        # Configuration settings for the application
+│   └── connection.py    # Manage connections to databases
+├── screenshots/         # App demo screenshot
+├── .env                 # Environment variables
+├── main.py              # Entry point
+├── Procfile             # Heroku launch configuration file
+├── render.yaml          # Deploy configuration file on Render
+├── requirements.txt     # List of dependent Python libraries
+├── runtime.txt          # Python runtime version
+└── README.md            # Project user manual
+```
+
 The system has been **fully deployed on a production server** and integrated with a **CI/CD pipeline**, ensuring automatic build & deployment on every update.
 
 ### 🚀 Try It Now
